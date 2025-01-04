@@ -1,0 +1,33 @@
+{
+  "name": "node-django-sessions",
+  "version": "0.0.2",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "jest"
+  },
+  "keywords": [
+    "node",
+    "django",
+    "sessions",
+    "middleware",
+    "authentication"
+  ],
+  "author": "soccer99",
+  "license": "MIT",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@types/jest": "^29.5.14",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
+  }
+}
