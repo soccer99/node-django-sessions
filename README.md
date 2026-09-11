@@ -1,17 +1,19 @@
 # node-django-sessions
 
-A lightweight TypeScript/Node.js library that allows you to decode and use Django session data in your Node.js applications. Perfect for scenarios where you need to share authentication between Django and Node.js services.
+A small TypeScript/Node.js library. It reads and writes Django session data. Use it when a Django service and a Node.js service must share one login.
 
 [![npm version](https://badge.fury.io/js/node-django-sessions.svg)](https://badge.fury.io/js/node-django-sessions)
+[![Django 4.2 | 5.2 | 6.1](https://img.shields.io/badge/Django-4.2%20%7C%205.2%20%7C%206.1-092E20?logo=django&logoColor=white)](tests/fixtures)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Features
 
-- Decode Django session data in Node.js applications
-- TypeScript support out of the box
-- Handles both compressed and uncompressed session data
-- Easy integration with Express.js middleware
-- Supports custom secret keys and salt configurations
+- Reads Django session data in Node.js
+- Writes session data that Django can read
+- Has TypeScript types
+- Supports compressed and uncompressed session data
+- Works with Express.js middleware
+- Accepts a custom secret key and salt
 
 ## Installation
 
@@ -23,19 +25,19 @@ yarn add node-django-sessions
 
 ## Usage
 
-### Basic Usage
+### Read a session (Django to Node)
 
 ```typescript
 import { decodeSession } from 'node-django-sessions';
 
-// Session data from django_sessions table
+// The session_data column from the django_session table
 const sessionData = "your_session_data_here";
 
 try {
   const sessionInfo = await decodeSession(sessionData, {
     secretKey: 'your_django_secret_key'
   });
-  
+
   console.log(sessionInfo);
   // Output:
   // {
@@ -49,7 +51,26 @@ try {
 }
 ```
 
-### Express Middleware Example
+### Write a session (Node to Django)
+
+```typescript
+import { createSession } from 'node-django-sessions';
+
+// Store the result in the django_session table. Django can read it.
+const sessionData = await createSession(
+  { _auth_user_id: '1', _auth_user_backend: 'django.contrib.auth.backends.ModelBackend' },
+  { secretKey: 'your_django_secret_key' }
+);
+```
+
+The output is the same as `django.core.signing.dumps(..., compress=True)`. It has four parts:
+
+1. JSON data, in base64url
+2. zlib compression, only if it makes the data smaller
+3. A base62 timestamp
+4. An HMAC-SHA256 signature
+
+### Express middleware example
 
 ```typescript
 import { decodeSession } from 'node-django-sessions';
@@ -59,17 +80,20 @@ const app = express();
 
 const djangoSessionMiddleware = async (req: any, res: any, next: any) => {
   try {
-    const sessionId = req.cookies['sessionid'];  // or however you store your session ID
+    const sessionId = req.cookies['sessionid'];  // or the location of your session ID
 
-    // TODO: Add your own session data retrieval logic here
+    // TODO: Get the session data from your store (for example Redis or a database)
     const sessionData = await getSessionData(sessionId);
-
     if (!sessionData) {
       return res.status(401).json({ error: 'No session provided' });
     }
 
     const session = await decodeSession(sessionData);
-    req.djangoSession = session;
+
+    // TODO: Get the user from your database with session._auth_user_id
+    const user = await getUserById(session._auth_user_id);
+    req.user = user;
+
     next();
   } catch (error) {
     res.status(401).json({ error: 'Invalid session' });
@@ -81,22 +105,32 @@ app.use(djangoSessionMiddleware);
 
 ## Configuration
 
-The `decodeSession` function accepts the following options:
+`decodeSession` and `createSession` accept these options:
 
 ```typescript
 interface SessionOptions {
-  secretKey?: string;  // Django's SECRET_KEY (can also be set via DJANGO_SECRET_KEY env var)
-  salt?: string;       // Custom salt if your Django config uses one
+  secretKey?: string;  // The Django SECRET_KEY. You can also set the DJANGO_SECRET_KEY env var.
+  salt?: string;       // A custom salt, if your Django config uses one
 }
 ```
 
-### Environment Variables
+### Environment variables
 
-- `DJANGO_SECRET_KEY`: Your Django project's secret key. This can be used instead of passing the key in options.
+- `DJANGO_SECRET_KEY`: The secret key of your Django project. Set it here if you do not pass it in the options.
+
+## Django compatibility
+
+The tests compare the output byte for byte with sessions made by Django 4.2, 5.2, and 6.1. The Django sessions are in `tests/fixtures/`.
+
+To make the fixtures again, you must have [uv](https://docs.astral.sh/uv/). Then run:
+
+```bash
+sh tests/fixtures/gen.sh
+```
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Pull requests are welcome.
 
 ## License
 
@@ -104,4 +138,4 @@ MIT
 
 ## Credits
 
-Inspired by the need to bridge Django and Node.js applications in modern microservice architectures.
+Made to connect Django and Node.js applications in a microservice architecture.

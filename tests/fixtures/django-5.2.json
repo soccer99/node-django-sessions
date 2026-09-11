@@ -1,0 +1,115 @@
+{
+  "django": "5.2.17",
+  "cases": {
+    "anonymous": {
+      "data": {
+        "test": "test"
+      },
+      "session": "eyJ0ZXN0IjoidGVzdCJ9:1tTx0Z:gRRdsfd1sC7vCEqFKUWxYoXXT8feyYECiWr4o-I3RLQ"
+    },
+    "user": {
+      "data": {
+        "_auth_user_id": "1",
+        "test": "test"
+      },
+      "session": "eyJfYXV0aF91c2VyX2lkIjoiMSIsInRlc3QiOiJ0ZXN0In0:1tTx0Z:lmnR-uT2WAz0QaKSOPBRcnmbFsLrCmU0tdPwpZwQH2c"
+    },
+    "compressed": {
+      "data": {
+        "_auth_user_backend": "django.contrib.auth.backends.ModelBackend",
+        "_auth_user_hash": "test",
+        "_auth_user_id": "1",
+        "cart": [
+          {
+            "sku": "item-0",
+            "qty": 0
+          },
+          {
+            "sku": "item-1",
+            "qty": 1
+          },
+          {
+            "sku": "item-2",
+            "qty": 2
+          },
+          {
+            "sku": "item-3",
+            "qty": 3
+          },
+          {
+            "sku": "item-4",
+            "qty": 4
+          },
+          {
+            "sku": "item-5",
+            "qty": 5
+          },
+          {
+            "sku": "item-6",
+            "qty": 6
+          },
+          {
+            "sku": "item-7",
+            "qty": 7
+          },
+          {
+            "sku": "item-8",
+            "qty": 8
+          },
+          {
+            "sku": "item-9",
+            "qty": 9
+          },
+          {
+            "sku": "item-10",
+            "qty": 10
+          },
+          {
+            "sku": "item-11",
+            "qty": 11
+          },
+          {
+            "sku": "item-12",
+            "qty": 12
+          },
+          {
+            "sku": "item-13",
+            "qty": 13
+          },
+          {
+            "sku": "item-14",
+            "qty": 14
+          },
+          {
+            "sku": "item-15",
+            "qty": 15
+          },
+          {
+            "sku": "item-16",
+            "qty": 16
+          },
+          {
+            "sku": "item-17",
+            "qty": 17
+          },
+          {
+            "sku": "item-18",
+            "qty": 18
+          },
+          {
+            "sku": "item-19",
+            "qty": 19
+          }
+        ]
+      },
+      "session": ".eJxl0MsOgjAUhOF36VqJ4x2W7n0CY0iBRvACkZaFMby7kHiOOm77tU3mf5rUdqFMO-_aNLP5xdWFSUxxtvWpifKmDm2VReOV6K0-2jeFu-7edyffH5TWl8Pr4Hz4hWr8FMNZbttgksPT-Es3HFXB3aaz4fweHiaZ9ZMfgAAI5gJzgoXAgmApsCRYCawI1gJrgo3AhmArsCWIBWIeqNPxt_0zntdD54P3QwOAC0ATgBtAI4ArQDOAO0BDgEtAU4BbQGMg7o_9Cz2_xTk:1tTx0Z:X7l1crCJjaTBHmI8AOCXVwAZCgxnLasUZBVlS68OZ3I"
+    },
+    "unicode": {
+      "data": {
+        "name": "Zoë 😀",
+        "city": "São Paulo"
+      },
+      "session": "eyJuYW1lIjoiWm9cdTAwZWIgXHVkODNkXHVkZTAwIiwiY2l0eSI6IlNcdTAwZTNvIFBhdWxvIn0:1tTx0Z:a3fk62KFVgzSmGzxMczaS82Fo4OzM2KoBTIHUe1EOxQ"
+    }
+  }
+}
