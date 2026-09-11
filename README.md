@@ -22,6 +22,8 @@ A small TypeScript/Node.js library. It reads and writes Django session data. Use
 npm install node-django-sessions
 # or
 yarn add node-django-sessions
+# or, for Deno
+deno add jsr:@soccer99/node-django-sessions
 ```
 
 ## Usage

@@ -50,7 +50,7 @@ export async function decodeSession(
 	const value = sessionData.slice(0, sep);
 	const sig = Buffer.from(sessionData.slice(sep + 1));
 	const expected = Buffer.from(signature(value, secretKey, salt));
-	if (sig.length !== expected.length || !crypto.timingSafeEqual(sig, expected)) {
+	if (Buffer.byteLength(sig) !== Buffer.byteLength(expected) || !crypto.timingSafeEqual(sig, expected)) {
 		throw new Error("Invalid signature");
 	}
 
@@ -80,7 +80,7 @@ export async function createSession(
 	// Same as Signer.sign_object(compress=True). Use zlib only if it makes the data smaller.
 	let payload = bytes.toString("base64url");
 	const compressed = zlib.deflateSync(bytes);
-	if (compressed.length < bytes.length - 1) {
+	if (Buffer.byteLength(compressed) < Buffer.byteLength(bytes) - 1) {
 		payload = "." + compressed.toString("base64url");
 	}
 
