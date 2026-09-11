@@ -1,4 +1,5 @@
 import { readdirSync, readFileSync } from "node:fs";
+import { inflateSync } from "node:zlib";
 import { join } from "node:path";
 import { createSession, decodeSession } from "../src";
 
@@ -19,6 +20,15 @@ describe.each(fixtures)("Django $django", ({ cases }) => {
 
 	test.each(Object.entries(cases))("%s: create is byte-exact", async (_name, { data, session }) => {
 		jest.spyOn(Date, "now").mockReturnValue(1735969655000);
-		expect(await createSession(data, { secretKey })).toBe(session);
+		const made = await createSession(data, { secretKey });
+		if (!session.startsWith(".")) {
+			expect(made).toBe(session);
+			return;
+		}
+		// Compressed: zlib bytes differ between platforms, so compare the inflated JSON bytes.
+		const inflate = (s: string) => inflateSync(Buffer.from(s.slice(1).split(":")[0], "base64url")).toString("latin1");
+		expect(made.startsWith(".")).toBe(true);
+		expect(inflate(made)).toBe(inflate(session));
+		expect(await decodeSession(made, { secretKey })).toStrictEqual(data);
 	});
 });
