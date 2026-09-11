@@ -1,3 +1,19 @@
+/**
+ * Read and write Django session data in Node.js, Deno, and Bun.
+ *
+ * The format is the same as `django.core.signing.dumps(..., compress=True)`.
+ * Django 4.2, 5.2, and 6.1 can read the output.
+ *
+ * @example
+ * ```ts
+ * import { createSession, decodeSession } from "@soccer99/node-django-sessions";
+ *
+ * const session = await createSession({ _auth_user_id: "1" }, { secretKey: "django-secret" });
+ * const data = await decodeSession(session, { secretKey: "django-secret" });
+ * ```
+ *
+ * @module
+ */
 import { Buffer } from "node:buffer";
 import * as crypto from "node:crypto";
 import * as zlib from "node:zlib";
@@ -5,8 +21,11 @@ import * as zlib from "node:zlib";
 const DEFAULT_SALT = "django.contrib.sessions.SessionStore";
 const B62 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
+/** Options for {@link decodeSession} and {@link createSession}. */
 export interface SessionOptions {
+	/** The Django `SECRET_KEY`. If not set, the `DJANGO_SECRET_KEY` env var is used. */
 	secretKey?: string;
+	/** The signing salt. The default is the Django session salt. Change it only if your Django config does. */
 	salt?: string;
 }
 
@@ -37,6 +56,17 @@ function b62(n: number): string {
 	return out;
 }
 
+/**
+ * Read a Django session string and return its data.
+ *
+ * The function checks the signature first. Then it decodes the base64 data.
+ * If the data is compressed, the function inflates it.
+ *
+ * @param sessionData The `session_data` value from the `django_session` table.
+ * @param options The secret key and salt.
+ * @returns The session data as a JSON value.
+ * @throws Error if the secret key is missing, the format is wrong, or the signature does not match.
+ */
 export async function decodeSession(
 	sessionData: string,
 	options: SessionOptions = {},
@@ -63,6 +93,17 @@ export async function decodeSession(
 	return JSON.parse(data.toString("latin1"));
 }
 
+/**
+ * Make a Django session string from data.
+ *
+ * Django can read the output. The output is the same as
+ * `django.core.signing.dumps(data, salt, compress=True)`.
+ *
+ * @param data Any JSON value. Django reads it as a dict, list, or scalar.
+ * @param options The secret key and salt.
+ * @returns The signed session string. Store it in the `django_session` table.
+ * @throws Error if the secret key is missing.
+ */
 export async function createSession(
 	data: unknown,
 	options: SessionOptions = {},

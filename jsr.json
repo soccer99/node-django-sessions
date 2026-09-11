@@ -1,9 +1,13 @@
 {
   "name": "@soccer99/node-django-sessions",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "exports": "./src/index.ts",
   "publish": {
-    "include": ["src/", "README.md", "LICENSE"]
+    "include": [
+      "src/",
+      "README.md",
+      "LICENSE"
+    ]
   }
 }
