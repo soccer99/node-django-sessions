@@ -3,6 +3,7 @@
 A small TypeScript/Node.js library. It reads and writes Django session data. Use it when a Django service and a Node.js service must share one login.
 
 [![npm version](https://badge.fury.io/js/node-django-sessions.svg)](https://badge.fury.io/js/node-django-sessions)
+[![JSR](https://jsr.io/badges/@soccer99/node-django-sessions)](https://jsr.io/@soccer99/node-django-sessions)
 [![Django 4.2 | 5.2 | 6.1](https://img.shields.io/badge/Django-4.2%20%7C%205.2%20%7C%206.1-092E20?logo=django&logoColor=white)](tests/fixtures)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
