@@ -14,6 +14,7 @@ A small TypeScript/Node.js library. It reads and writes Django session data. Use
 - Supports compressed and uncompressed session data
 - Works with Express.js middleware
 - Accepts a custom secret key and salt
+- Runs in Node.js, Deno, and Bun
 
 ## Installation
 
@@ -117,6 +118,25 @@ interface SessionOptions {
 ### Environment variables
 
 - `DJANGO_SECRET_KEY`: The secret key of your Django project. Set it here if you do not pass it in the options.
+
+## Runtime compatibility
+
+The library runs in these runtimes. The tests check each one.
+
+| Runtime | Tested with |
+| --- | --- |
+| Node.js | 26 |
+| TypeScript | 5.7 |
+| Deno | 2.1 |
+| Bun | 1.4 |
+
+Deno note: The library imports `Buffer` from `node:buffer`. You do not need the `--unstable-node-globals` flag.
+
+To run the runtime tests, you must have Node.js, Deno, and Bun installed. Then run:
+
+```bash
+npm run test:runtimes
+```
 
 ## Django compatibility
 

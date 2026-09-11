@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "jest"
+    "test": "jest",
+    "test:runtimes": "npm run build && node tests/smoke.mts && tsc --noEmit --module nodenext --moduleResolution nodenext --target es2022 --strict --skipLibCheck tests/smoke.mts && deno run --allow-read tests/smoke.mts && bun tests/smoke.mts"
   },
   "keywords": [
     "node",
