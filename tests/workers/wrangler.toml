@@ -1,0 +1,4 @@
+name = "node-django-sessions-smoke"
+main = "worker.mjs"
+compatibility_date = "2025-09-01"
+compatibility_flags = ["nodejs_compat"]

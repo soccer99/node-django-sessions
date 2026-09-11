@@ -15,7 +15,7 @@ A small TypeScript/Node.js library. It reads and writes Django session data. Use
 - Supports compressed and uncompressed session data
 - Works with Express.js middleware
 - Accepts a custom secret key and salt
-- Runs in Node.js, Deno, and Bun
+- Runs in Node.js, Deno, Bun, and Cloudflare Workers
 
 ## Installation
 
@@ -132,13 +132,17 @@ The library runs in these runtimes. The tests check each one.
 | TypeScript | 5.7 |
 | Deno | 2.1 |
 | Bun | 1.4 |
+| Cloudflare Workers | wrangler 4.131 |
 
 Deno note: The library imports `Buffer` from `node:buffer`. You do not need the `--unstable-node-globals` flag.
+
+Cloudflare Workers note: Add the `nodejs_compat` flag to your Wrangler config. Workers with a compatibility date of 2026-08-04 or later have it on by default.
 
 To run the runtime tests, you must have Node.js, Deno, and Bun installed. Then run:
 
 ```bash
 npm run test:runtimes
+npm run test:workers
 ```
 
 ## Django compatibility

@@ -10,7 +10,8 @@
   "scripts": {
     "build": "tsup",
     "test": "jest",
-    "test:runtimes": "npm run build && node tests/smoke.mts && tsc --noEmit --module nodenext --moduleResolution nodenext --target es2022 --strict --skipLibCheck tests/smoke.mts && deno run --allow-read tests/smoke.mts && bun tests/smoke.mts"
+    "test:runtimes": "npm run build && node tests/smoke.mts && tsc --noEmit --module nodenext --moduleResolution nodenext --target es2022 --strict --skipLibCheck tests/smoke.mts && deno run --allow-read tests/smoke.mts && bun tests/smoke.mts",
+    "test:workers": "npm run build && node tests/workers/run.mjs"
   },
   "keywords": [
     "node",
@@ -29,6 +30,7 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "tsup": "^8.3.5",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.131.0"
   }
 }
